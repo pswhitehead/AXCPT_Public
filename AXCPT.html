@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="AXCPT.css" type="text/css" charset="utf-8">
+	<script type="text/javascript" src="jquery-3.1.1.js"></script>
+	<script type="text/javascript">
+
+	/* function gup(name, tmpURL)
+	{
+		var regexS = "[\\?&]"+name+"=([^&#]*)";
+		var regex = new RegExp(regexS);
+		var results = regex.exec(tmpURL);
+		if (results == null)
+		{
+			return "";
+		}
+		else
+		{
+			return results[1];
+		}
+	} */
+
+	$(document).ready(function(){
+		var c = document.getElementById("myCanvas");
+		var ctx = c.getContext("2d");
+		i = 0;
+		var key;
+		var count = 0;
+		var ACCcount = 0;
+		var ACCcountprac = 0;
+		var trialNum = 680;
+		var pracBLOCK = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,7];
+
+		var expBLOCK1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+			1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7,
+			2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7];
+
+			var expBLOCK2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+				1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7,
+				2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7];
+
+				var expBLOCK3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+					1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7,
+					2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7];
+
+					var expBLOCK4 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7,
+						2,2,3,3,4,4,5,5,6,6,7,7,2,2,3,3,4,4,5,5,6,6,7,7];
+
+						shuffle(pracBLOCK);
+						shuffle(expBLOCK1);
+						shuffle(expBLOCK2);
+						shuffle(expBLOCK3);
+						shuffle(expBLOCK4);
+
+						var trialtype = pracBLOCK.concat(expBLOCK1, expBLOCK2, expBLOCK3, expBLOCK4);
+
+						var filler = ["B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Z", "Y"];
+
+						var upKEY = ["k","K"]
+						var downKEY = ["m","M"]
+						respKEY = [[upKEY],[downKEY]];
+						shuffle(respKEY);
+						console.log(respKEY);
+
+						//logfile
+						var data=[['']];
+						var runStart;
+						var logCounter = 0;
+						var onset;
+						var d1;
+						var checkResponse = false;
+						var timeoutHandle = null;
+
+						//function to shuffle things
+						function shuffle(array) {
+							var currentIndex = array.length, temporaryValue, randomIndex;
+
+							// While there remain elements to shuffle...
+							while (0 !== currentIndex) {
+
+								// Pick a remaining element...
+								randomIndex = Math.floor(Math.random() * currentIndex);
+								currentIndex -= 1;
+
+								// And swap it with the current element.
+								temporaryValue = array[currentIndex];
+								array[currentIndex] = array[randomIndex];
+								array[randomIndex] = temporaryValue;
+							}
+
+							return array;
+						}
+
+
+
+						function runTRIAL(){
+							if (i < trialNum){
+								var j = 0;
+								shuffle(filler);
+								showITI100A();
+
+								function showITI100A(){
+									$("#startButton").hide();
+									ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+									setTimeout(showCUE,100);
+								}
+
+								function showCUE(){
+									$("#startButton").hide();
+									ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+									switch(trialtype[i]){
+										case 0:
+										case 1:
+										case 2:
+										case 3:
+										ctx.font="bold 150px Arial";
+										ctx.fillStyle="#FF00FF";
+										ctx.textBaseline="middle";
+										ctx.textAlign="center";
+										ctx.fillText("A",(myCanvas.width)/2,(myCanvas.height)/2);
+										j++;
+										setTimeout(showITI200,300);
+										break;
+
+										case 4:
+										case 5:
+										case 6:
+										case 7:
+										ctx.font="bold 150px Arial";
+										ctx.fillStyle="#FF00FF";
+										ctx.textBaseline="middle";
+										ctx.textAlign="center";
+										ctx.fillText(filler[j],(myCanvas.width)/2,(myCanvas.height)/2);
+										j++;
+										setTimeout(showITI200,300);
+										break;
+									}
+								}
+
+								function showITI200(){
+									$("#startButton").hide();
+									ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+									setTimeout(showFILLER,200);
+								}
+
+								function showFILLER(){
+									$("#startButton").hide();
+									ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+									function FILLER1(){
+										ctx.font="bold 127px Arial";
+										ctx.fillStyle="BLACK";
+										ctx.textBaseline="middle";
+										ctx.textAlign="center";
+										ctx.fillText(filler[j],(myCanvas.width)/2,(myCanvas.height)/2);
+										j++;
+										setTimeout(FILLER2,300);}
+
+										function FILLER2(){
+											ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+											ctx.font="bold 127px Arial";
+											ctx.fillStyle="BLACK";
+											ctx.textBaseline="middle";
+											ctx.textAlign="center";
+											ctx.fillText(filler[j],(myCanvas.width)/2,(myCanvas.height)/2);
+											j++;
+											setTimeout(FILLER3,300);}
+
+											function FILLER3(){
+												ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+												ctx.font="bold 127px Arial";
+												ctx.fillStyle="BLACK";
+												ctx.textBaseline="middle";
+												ctx.textAlign="center";
+												ctx.fillText(filler[j],(myCanvas.width)/2,(myCanvas.height)/2);
+												j++;
+												setTimeout(showITI100B,300);}
+												FILLER1();
+											}
+
+
+											function showITI100B(){
+												$("#startButton").hide();
+												ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+												setTimeout(showPROBE,100);
+											}
+
+											function showPROBE(){
+												$("#startButton").hide();
+												ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+												switch(trialtype[i]){
+													case 0:
+													case 4:
+													d1 = new Date();
+													onset = d1.getTime() - runStart;
+													data[logCounter] = ["P:", onset, trialtype[i], filler[1], filler[2], filler[3], "X"] ;
+													logCounter++;
+													ctx.font="bold 150px Arial";
+													ctx.fillStyle="#FF00FF";
+													ctx.textBaseline="middle";
+													ctx.textAlign="center";
+													ctx.fillText("X",(myCanvas.width)/2,(myCanvas.height)/2);
+													break;
+
+													case 1:
+													case 5:
+													d1 = new Date();
+													onset = d1.getTime() - runStart;
+													data[logCounter] = ["P:", onset, trialtype[i], filler[1], filler[2], filler[3], "XX"] ;
+													logCounter++;
+													ctx.font="bold 150px Arial";
+													ctx.fillStyle="#FF00FF";
+													ctx.textBaseline="middle";
+													ctx.textAlign="center";
+													ctx.fillText("X",((myCanvas.width)/2)-70,(myCanvas.height)/2);
+													ctx.fillText("X",((myCanvas.width)/2)+70,(myCanvas.height)/2);
+													break;
+
+													case 2:
+													case 6:
+													d1 = new Date();
+													onset = d1.getTime() - runStart;
+													data[logCounter] = ["P:", onset, trialtype[i], filler[1], filler[2], filler[3], filler[4]] ;
+													logCounter++;
+													ctx.font="bold 150px Arial";
+													ctx.fillStyle="#FF00FF";
+													ctx.textBaseline="middle";
+													ctx.textAlign="center";
+													ctx.fillText(filler[j],(myCanvas.width)/2,(myCanvas.height)/2);
+													break;
+
+													case 3:
+													case 7:
+													d1 = new Date();
+													onset = d1.getTime() - runStart;
+													data[logCounter] = ["P:", onset, trialtype[i], filler[1], filler[2], filler[3], filler[4]] ;
+													logCounter++;
+													ctx.font="bold 150px Arial";
+													ctx.fillStyle="#FF00FF";
+													ctx.textBaseline="middle";
+													ctx.textAlign="center";
+													ctx.fillText(filler[j],((myCanvas.width)/2)-70,(myCanvas.height)/2);
+													ctx.fillText(filler[j],((myCanvas.width)/2)+70,(myCanvas.height)/2);
+													break;
+												}
+
+
+												$("body").keypress(function(event){if (i<trialNum){
+													//clearTimeout();
+													key = String.fromCharCode(event.which);
+													//creates more data
+													d1 = new Date();
+													Ronset = d1.getTime()-runStart;
+													respTime = Ronset-onset;
+													if(i<=trialNum){
+														var acc=0;
+														switch(trialtype[i]){
+															case 0:
+															case 3:
+															case 5:
+															case 7:
+															if(key==respKEY[0][0][0] || key==respKEY[0][0][1])
+															acc=1;
+															break;
+
+															case 1:
+															case 2:
+															case 4:
+															case 6:
+															if(key==respKEY[1][0][0] || key==respKEY[1][0][1])
+															acc=1;
+															break;
+														}
+														data[logCounter] = ["R:", Ronset, trialtype[i], key, respTime, acc];
+														logCounter++;
+														i++;
+														showFEEDBACK();
+													}
+												}
+											});
+										}
+
+
+										function showFEEDBACK(){
+											$("#startButton").hide();
+											//clears the shape off the screen
+											ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+											//defines stuff for the fixation marker
+											ctx.font="60px Arial";
+											ctx.fillStyle="black";
+											ctx.textBaseline="middle";
+											ctx.textAlign="center";
+
+											var result="Incorrect";
+											switch(trialtype[i-1]){
+												case 0:
+												case 3:
+												case 5:
+												case 7:
+												if(key==respKEY[0][0][0] || key==respKEY[0][0][1])
+												result="Correct";
+												break;
+
+												case 1:
+												case 2:
+												case 4:
+												case 6:
+												if(key==respKEY[1][0][0] || key==respKEY[1][0][1])
+												result="Correct";
+												break;
+											}
+											if (result=="Incorrect"){
+												ctx.font="bold 60px Arial";
+												ctx.textBaseline="middle";
+												ctx.textAlign="center";
+												ctx.fillStyle="black";
+												ctx.fillText(""+result, myCanvas.width/2, myCanvas.height/2);
+												setTimeout(showITI500,1500);
+											}
+											else{
+												ctx.font="bold 60px Arial";
+												ctx.textBaseline="middle";
+												ctx.textAlign="center";
+												ctx.fillStyle="black";
+												ctx.fillText(""+result, myCanvas.width/2, myCanvas.height/2);
+												setTimeout(showITI500,1500);
+											}
+										}
+
+										function showITI500(){
+											$("#startButton").hide();
+											ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+											if (i==40 || i==200 || i==360 || i==520){
+												setTimeout(breakSCREEN, 500);
+											}
+											else{setTimeout(runTRIAL,500);
+											}
+										}
+
+										function breakSCREEN(){
+											$("#startButton").hide();
+											$("#continueButton2").show();
+											ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+											switch(i){
+												case 40:
+												ctx.font="25px Arial";
+												ctx.fillStyle="black";
+												ctx.textBaseline="middle";
+												ctx.textAlign="center";
+												ctx.fillText("You are finished with the practice block.", myCanvas.width/2, (myCanvas.height/2)-380);
+												ctx.fillText("Below is a reminder of the instructions. Press the button to continue.", myCanvas.width/2, (myCanvas.height/2)-300);
+
+												ctx.font="25px Arial";
+												ctx.fillStyle="black";
+												ctx.textBaseline="middle";
+												ctx.textAlign="left";
+
+												ctx.fillText("1. On the computer screen you will see a sequence of letters each trial.", (myCanvas.width/2)-400, (myCanvas.height/2)-210);
+												ctx.fillText("The first letter is presented briefly              , and you only need to respond", (myCanvas.width/2)-400, (myCanvas.height/2)-175);
+												ctx.fillText("to the                  in         every trial.", (myCanvas.width/2)-400, (myCanvas.height/2)-140);
+
+												ctx.fillText("2. Please press the " +respKEY[0][0][1]+ " key whenever    appears and the " +respKEY[1][0][1]+ " key whenever", (myCanvas.width/2)-400, (myCanvas.height/2)-210+150);
+												ctx.fillText("      appears but only if an    was presented before.", (myCanvas.width/2)-400, (myCanvas.height/2)-175+150);
+
+												ctx.fillText("3. In all other cases (an A may be followed by letter(s) other than X/XX or", (myCanvas.width/2)-400, (myCanvas.height/2)-210+250);
+												ctx.fillText("another letter may be presented prior to X/XX or other letters) please", (myCanvas.width/2)-400, (myCanvas.height/2)-175+250);
+												ctx.fillText("press the " +respKEY[1][0][1]+ " key whenever                       is presented and the " +respKEY[0][0][1]+ " key" , (myCanvas.width/2)-400, (myCanvas.height/2)-140+250);
+												ctx.fillText("whenever                        are presented.", (myCanvas.width/2)-400, (myCanvas.height/2)-105+250);
+
+												ctx.fillText("4. Please ignore the distractor letters which are presented in between", (myCanvas.width/2)-400, (myCanvas.height/2)-210+425);
+												ctx.fillText("the pink letters", (myCanvas.width/2)-400, (myCanvas.height/2)-175+425);
+
+												ctx.fillStyle="#FF00FF";
+												ctx.font="bold 25px Arial";
+												ctx.fillText("in pink", (myCanvas.width/2)-20, (myCanvas.height/2)-175);
+												ctx.fillText("pink", (myCanvas.width/2)-188, (myCanvas.height/2)-140);
+												ctx.fillText("X", (myCanvas.width/2)+10, (myCanvas.height/2)-210+150);
+												ctx.fillText("XX", (myCanvas.width/2)-400, (myCanvas.height/2)-175+150);
+												ctx.fillText( "A", (myCanvas.width/2)-113, (myCanvas.height/2)-175+150);
+												ctx.fillText("1 pink letter" , (myCanvas.width/2)-102, (myCanvas.height/2)-140+250);
+												ctx.fillText("2 pink letters", (myCanvas.width/2)-288, (myCanvas.height/2)-105+250);
+
+												ctx.font="bold 25px Arial";
+												ctx.fillStyle="black";
+												ctx.fillText("last letter", (myCanvas.width/2)-330, (myCanvas.height/2)-140);
+												break;
+
+												case 200:
+												ctx.font="25px Arial";
+												ctx.fillStyle="black";
+												ctx.textBaseline="middle";
+												ctx.textAlign="center";
+												ctx.fillText("You are finished with Block 1 of 4.", myCanvas.width/2, (myCanvas.height/2)-380);
+												ctx.fillText("Press the button to continue.", myCanvas.width/2, (myCanvas.height/2)-340);
+												ctx.fillText("Remeber to respond as quickly and accurately as possible.", myCanvas.width/2, (myCanvas.height/2)-300);
+												break;
+
+												case 360:
+												ctx.font="25px Arial";
+												ctx.fillStyle="black";
+												ctx.textBaseline="middle";
+												ctx.textAlign="center";
+												ctx.fillText("You are finished with Block 2 of 4.", myCanvas.width/2, (myCanvas.height/2)-380);
+												ctx.fillText("Press the button to continue.", myCanvas.width/2, (myCanvas.height/2)-340);
+												ctx.fillText("Remeber to respond as quickly and accurately as possible.", myCanvas.width/2, (myCanvas.height/2)-300);
+												break;
+
+												case 520:
+												ctx.font="25px Arial";
+												ctx.fillStyle="black";
+												ctx.textBaseline="middle";
+												ctx.textAlign="center";
+												ctx.fillText("You are finished with Block 3 of 4.", myCanvas.width/2, (myCanvas.height/2)-380);
+												ctx.fillText("Press the button to continue.", myCanvas.width/2, (myCanvas.height/2)-340);
+												ctx.fillText("Remeber to respond as quickly and accurately as possible.", myCanvas.width/2, (myCanvas.height/2)-300);
+												break;
+											}
+											$("#continueButton2").click(function(){
+												$("#continueButton2").hide();
+												$("#info").hide();
+												countdown(3);
+											});
+										}
+									}
+									else{
+										$("#continue2").hide();
+										//alert(data.join(";"));
+										$("#info").css("color","black");
+										//$("#info").show();
+										$("#info").text(data.join(";"));
+										//$("#mturk_form").show();
+										$("#RTs", opener.window.document).val(data.join(";"));
+										opener.updateMainMenu(2);
+										JavaScript:window.close();
+									}
+								}
+
+								function instructions1(){
+									$("#startButton").hide();
+									$("#continueButton1").hide();
+									$("#continueButton2").hide();
+
+									$("#continueButton").show();
+									ctx.font="25px Arial";
+									ctx.fillStyle="black";
+									ctx.textBaseline="middle";
+									ctx.textAlign="center";
+									ctx.fillText("1. On the computer screen you will see a sequence of letters.", myCanvas.width/2, (myCanvas.height/2)-210);
+									ctx.fillText("2. The first letter is presented in pink, several letters are then", myCanvas.width/2, (myCanvas.height/2)-145);
+									ctx.fillText("presented in black, and a final letter is presented in pink.", myCanvas.width/2, (myCanvas.height/2)-110);
+									ctx.fillText("3. You only need to respond to the second pink letter", myCanvas.width/2, (myCanvas.height/2)-50);
+									ctx.fillText("by pressing either the M or the K key as quickly and accurately as possible.", myCanvas.width/2, (myCanvas.height/2)-20);
+									ctx.fillText("4. After your response, you will receive feedback", myCanvas.width/2, (myCanvas.height/2)+40);
+									ctx.fillText("on whether you responded correctly or incorrectly.", myCanvas.width/2, (myCanvas.height/2)+70);
+									ctx.fillStyle="red";
+									ctx.fillText("5. Please read and follow all instructions carefully.", myCanvas.width/2, (myCanvas.height/2)+125);
+									ctx.fillStyle="black";
+									ctx.fillText("6. Press the button for more instructions...", myCanvas.width/2, (myCanvas.height/2)+185);
+
+									$("#continueButton").click(function(){
+										$("#continueButton").hide();
+										$("#info").hide();
+										instructions2();
+									});
+
+								};
+
+								function instructions2(){
+									$("#startButton").hide();
+									$("#continueButton1").show();
+									$("#continueButton2").hide();
+									ctx.clearRect(0,0, myCanvas.width, myCanvas.height);
+									ctx.font="25px Arial";
+									ctx.fillStyle="black";
+									ctx.textBaseline="middle";
+									ctx.textAlign="left";
+
+									ctx.fillText("1. On the computer screen you will see a sequence of letters each trial.", (myCanvas.width/2)-400, (myCanvas.height/2)-210-100);
+									ctx.fillText("The first letter is presented briefly              , and you only need to respond", (myCanvas.width/2)-400, (myCanvas.height/2)-175-100);
+									ctx.fillText("to the                  in         every trial.", (myCanvas.width/2)-400, (myCanvas.height/2)-140-100);
+
+									ctx.fillText("2. Please press the " +respKEY[0][0][1]+ " key whenever    appears and the " +respKEY[1][0][1]+ " key whenever", (myCanvas.width/2)-400, (myCanvas.height/2)-210+150-100);
+									ctx.fillText("      appears but only if an    was presented before.", (myCanvas.width/2)-400, (myCanvas.height/2)-175+150-100);
+
+									ctx.fillText("3. In all other cases (an A may be followed by letter(s) other than X/XX or", (myCanvas.width/2)-400, (myCanvas.height/2)-210+250-100);
+									ctx.fillText("another letter may be presented prior to X/XX or other letters) please", (myCanvas.width/2)-400, (myCanvas.height/2)-175+250-100);
+									ctx.fillText("press the " +respKEY[1][0][1]+ " key whenever                       is presented and the " +respKEY[0][0][1]+ " key" , (myCanvas.width/2)-400, (myCanvas.height/2)-140+250-100);
+									ctx.fillText("whenever                        are presented.", (myCanvas.width/2)-400, (myCanvas.height/2)-105+250-100);
+
+									ctx.fillText("4. Please ignore the distractor letters which are presented in between", (myCanvas.width/2)-400, (myCanvas.height/2)-210+425-100);
+									ctx.fillText("the pink letters", (myCanvas.width/2)-400, (myCanvas.height/2)-175+425-100);
+
+									ctx.fillText("Example sequence:", (myCanvas.width/2)-400, (myCanvas.height/2)-210+525-100);
+									ctx.fillText("         F      W      K                                       G      S      L", (myCanvas.width/2)-400, (myCanvas.height/2)-175+525-90);
+
+									ctx.fillStyle="#FF00FF";
+									ctx.font="bold 25px Arial";
+									ctx.fillText("in pink", (myCanvas.width/2)-20, (myCanvas.height/2)-175-100);
+									ctx.fillText("pink", (myCanvas.width/2)-188, (myCanvas.height/2)-140-100);
+									ctx.fillText("X", (myCanvas.width/2)+8, (myCanvas.height/2)-210+150-100);
+									ctx.fillText("XX", (myCanvas.width/2)-400, (myCanvas.height/2)-175+150-100);
+									ctx.fillText( "A", (myCanvas.width/2)-113, (myCanvas.height/2)-175+150-100);
+									ctx.fillText("1 pink letter" , (myCanvas.width/2)-102, (myCanvas.height/2)-140+250-100);
+									ctx.fillText("2 pink letters", (myCanvas.width/2)-288, (myCanvas.height/2)-105+250-100);
+									ctx.fillText("A                                 XX                     H                              F", (myCanvas.width/2)-400, (myCanvas.height/2)-175+525-90);
+
+
+									ctx.font="bold 25px Arial";
+									ctx.fillStyle="black";
+									ctx.fillText("last letter", (myCanvas.width/2)-330, (myCanvas.height/2)-140-100);
+									ctx.fillText("^ respond                                        ^ respond", (myCanvas.width/2)-145, (myCanvas.height/2)-175+525-60);
+
+
+
+
+
+
+
+									$("#continueButton1").click(function(){
+										$("#continueButton1").hide();
+										$("#info").hide();
+										instructions3();
+									});
+								};
+
+
+								function instructions3(){
+									$("#startButton").show();
+									ctx.clearRect(0,0, myCanvas.width, myCanvas.height);
+									ctx.font="bold 25px Arial";
+									ctx.fillStyle="black";
+									ctx.textBaseline="middle";
+									ctx.textAlign="left";
+									ctx.fillText("There are four blocks in this task.", (myCanvas.width/2)-400, (myCanvas.height/2)-210);
+									ctx.fillText("There will be a short practice, and then you will begin block one.", (myCanvas.width/2)-400, (myCanvas.height/2)-110);
+									ctx.fillText("Press the start button to begin.", (myCanvas.width/2)-400, (myCanvas.height/2)-10);
+
+									$("#startButton").click(function(){
+										$("#startButton").hide();
+										$("#info").hide();
+										countdown(3);
+									});
+								};
+
+
+
+								$("#info").hide();
+								$("#mturk_form").hide();
+								d1 = new Date();
+								runStart = d1.getTime();
+
+								function countdown(time)
+								{
+									if (time > 0)
+									{
+										$("#startButton").hide();
+										ctx.fillStyle = "black";
+										ctx.font="60px Arial";
+										ctx.clearRect(0,0, myCanvas.width, myCanvas.height);
+										ctx.fillText(""+time, myCanvas.width/2, myCanvas.height/2);
+										setTimeout(function(){countdown(time-1)},1000);
+									}
+									else
+									{
+										runTRIAL();
+									}
+								}
+
+							/*	if(opener.window == null || opener.window == "")
+								{
+									$("#info").text("Accept HIT first");
+									$("#info").show();
+								}
+								else
+								{
+
+									document.getElementById("assignmentId").value = gup("assignmentId", opener.window.document.referrer);
+									document.getElementById("workerId").value = gup("workerId", document.referrer);
+									document.getElementById("hitId").value = gup("hitId", document.referrer);
+
+									if (document.getElementById("assignmentId").value == "" || document.getElementById("assignmentId").value == "ASSIGNMENT_ID_NOT_AVAILABLE")
+									{
+										$("#info").text("Accept HIT first");
+										$("#info").show();
+									}
+									else
+									{
+										instructions1();
+									}
+								} */
+instructions1();
+							});
+
+							</script>
+						</head>
+						<body>
+							<table>
+								<tr>
+									<td>
+										<canvas id="myCanvas" width="900" height="900"> </canvas>
+										<div style="text-align:center; align:center;">
+											<button id="continueButton">Continue Instructions</button>
+											<button id="continueButton1">Continue Instructions</button>
+											<button id="continueButton2">Continue</button>
+										</div>
+										<div style="text-align:center;">
+											<button id="startButton">Start</button>
+										</div>
+										<form id="mturk_form" method="POST" action="http://152.3.33.45/AMTSubmit/dataHandler.php">
+											<form id="mturk_form" method="POST" action="https://workersandbox.mturk.com/mturk/externalSubmit">
+												<input type="hidden" id="assignmentId" name="assignmentId" value="">
+												<input type="hidden" id="workerId" name="workerId" value="">
+												<input type="hidden" id="hitId" name="hitId" value="">
+												<input type="hidden" id="RTs" name="RTs" value="">
+												<input type="hidden" id="ExpName" name="ExpName" value="AXCPT">
+												<p style="font-family: Arial; color: black; font-size:24px">Click button to submit</p>
+												<input id="submitButton" type="submit" name="Finish" value="Submit">
+											</td>
+										</tr>
+									</table>
+								</body>
+								</html>
